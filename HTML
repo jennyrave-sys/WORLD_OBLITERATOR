@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JennyRave World Obliterator | Bass Enhancer VST</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        heat: {
+                            low: '#ff4500',
+                            mid: '#ff8c00',
+                            high: '#ffae42',
+                            white: '#ffffff',
+                            dark: '#0a0a0a'
+                        }
+                    },
+                    fontFamily: {
+                        brand: ['"Black Ops One"', 'cursive'],
+                        main: ['"Orbitron"', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'space-pattern': "radial-gradient(circle at center, #222 0%, #000 100%)",
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
+                    },
+                    keyframes: {
+                        shake: {
+                            '10%, 90%': { transform: 'translate3d(-1px, 0, 0)' },
+                            '20%, 80%': { transform: 'translate3d(2px, 0, 0)' },
+                            '30%, 50%, 70%': { transform: 'translate3d(-4px, 0, 0)' },
+                            '40%, 60%': { transform: 'translate3d(4px, 0, 0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff8c00; 
+            border-radius: 4px;
+        }
+
+        .text-glow {
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.7);
+        }
+        
+        .box-glow {
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.15);
+        }
+
+        .glitch-hover:hover {
+            animation: shake 0.5s;
+            color: #ffae42;
+        }
+    </style>
+</head>
+<body class="bg-heat-dark selection:bg-heat-mid selection:text-black">
+
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-heat-mid/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center h-20">
+                <div class="flex-shrink-0">
+                    <span class="font-main font-black text-2xl text-heat-mid tracking-widest uppercase border-2 border-heat-low px-4 py-1">JennyRave</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="relative pt-32 pb-20 sm:pt-40 sm:pb-24 overflow-hidden">
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
+            <h1 class="text-5xl sm:text-7xl font-black tracking-tight mb-4">
+                <span class="block text-white mb-2">WORLD</span>
+                <span class="block text-heat-mid text-glow font-brand transform scale-110">OBLITERATOR</span>
+            </h1>
+            <p class="mt-6 max-w-2xl mx-auto text-xl text-gray-300 tracking-wide italic">
+                "Bass Enhancer: Destroyer of Other Worlds"
+            </p>
+            <p class="mt-4 text-sm text-gray-500 uppercase tracking-[0.2em]">
+                Warning: Accidental Planetary Annihilation May Occur
+            </p>
+            
+            <div class="mt-10 flex justify-center gap-6">
+                <a href="https://github.com/jennyrave-sys/WORLD_OBLITERATOR/raw/refs/heads/main/World%20Obliterator.vst3.zip" target="_blank" class="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-black transition-all duration-200 bg-heat-mid font-main hover:bg-heat-high focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-heat-mid w-64">
+                    <span class="absolute inset-0 w-full h-full -mt-1 rounded-lg opacity-30 bg-gradient-to-b from-transparent via-transparent to-black"></span>
+                    <span class="relative flex items-center gap-3">
+                        <i class="fas fa-download"></i> DOWNLOAD VST3
+                    </span>
+                </a>
+            </div>
+
+            <div class="mt-20 relative mx-auto w-full max-w-3xl">
+                <div class="absolute inset-0 bg-heat-mid blur-[100px] opacity-20 animate-pulse-slow"></div>
+                <div class="relative bg-black border-4 border-gray-800 rounded-lg p-2 shadow-2xl">
+                    <div class="aspect-[600/440] bg-gray-900 rounded relative overflow-hidden">
+                        <img src="https://github.com/jennyrave-sys/WORLD_OBLITERATOR/raw/main/word_obliterator.png" alt="World Obliterator Interface" class="object-cover w-full h-full">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-heat-low to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-heat-low to-transparent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="features" class="py-24 bg-black relative border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-black text-white mb-2">SYSTEM SPECIFICATIONS</h2>
+                <div class="w-24 h-1 bg-heat-mid mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-zinc-900/50 p-8 border border-gray-800 hover:border-heat-low transition-colors duration-300 group">
+                    <div class="text-heat-mid text-4xl mb-4 group-hover:scale-110 transition-transform"><i class="fas fa-wave-square"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">Asymmetric Distortion</h3>
+                    <p class="text-gray-400 text-sm">Tube-like warmth created by processing positive and negative waveforms differently. Adds even-order harmonics for a richer tone.</p>
+                </div>
+
+                <div class="bg-zinc-900/50 p-8 border border-gray-800 hover:border-heat-low transition-colors duration-300 group">
+                    <div class="text-heat-mid text-4xl mb-4 group-hover:scale-110 transition-transform"><i class="fas fa-microchip"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">2x Oversampling</h3>
+                    <p class="text-gray-400 text-sm">Internal high-definition processing prevents digital aliasing ("fizz") while keeping CPU usage low.</p>
+                </div>
+
+                <div class="bg-zinc-900/50 p-8 border border-gray-800 hover:border-heat-low transition-colors duration-300 group">
+                    <div class="text-heat-mid text-4xl mb-4 group-hover:scale-110 transition-transform"><i class="fas fa-compress-arrows-alt"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">Mono-Maker</h3>
+                    <p class="text-gray-400 text-sm">Automatic Linkwitz-Riley crossover at 120Hz. Sums sub-bass to mono for a rock-solid foundation.</p>
+                </div>
+
+                <div class="bg-zinc-900/50 p-8 border border-gray-800 hover:border-heat-low transition-colors duration-300 group">
+                    <div class="text-heat-mid text-4xl mb-4 group-hover:scale-110 transition-transform"><i class="fas fa-shield-alt"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">High-Gain Architecture</h3>
+                    <p class="text-gray-400 text-sm">Capable of massive +12dB boosts on both Input and Output. Tamed by an intelligent Soft Limiter to prevent harsh digital clipping.</p>
+                </div>
+
+                <div class="bg-zinc-900/50 p-8 border border-gray-800 hover:border-heat-low transition-colors duration-300 group">
+                    <div class="text-heat-mid text-4xl mb-4 group-hover:scale-110 transition-transform"><i class="fas fa-fist-raised"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">Dynamic Punch</h3>
+                    <p class="text-gray-400 text-sm">Dynamic Transient Expansion boosts attack energy by 50% while momentarily relaxing drive, ensuring kicks punch through the distortion wall.</p>
+                </div>
+
+                <div class="bg-zinc-900/50 p-8 border border-gray-800 hover:border-heat-low transition-colors duration-300 group">
+                    <div class="text-heat-mid text-4xl mb-4 group-hover:scale-110 transition-transform"><i class="fas fa-headphones"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">Stereo Independence</h3>
+                    <p class="text-gray-400 text-sm">Independent DSP filters for Left and Right channels ensure a perfectly stable stereo image with zero phase drift.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-black pt-10 pb-20 border-t border-gray-900 relative z-20">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative rounded-lg overflow-hidden border border-gray-800 shadow-[0_0_30px_rgba(255,69,0,0.15)] group">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-40 z-10"></div>
+                <img src="https://github.com/jennyrave-sys/WORLD_OBLITERATOR/raw/main/4out5.jpg" alt="Planetary Destruction Visualization" class="w-full h-auto object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700">
+            </div>
+            <p class="mt-6 text-center text-gray-400 text-sm italic font-main tracking-wide">
+                "Four out of five scientists believe that the signal that destroyed their world came from Earf."
+            </p>
+        </div>
+    </div>
+
+    <div class="bg-zinc-900 py-20 border-y border-gray-800">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <i class="fas fa-cat text-6xl text-heat-mid mb-6 animate-bounce"></i>
+            <h2 class="text-3xl font-bold mb-6 text-white uppercase tracking-widest">Transmission from Earf</h2>
+            <p class="text-lg text-gray-300 leading-relaxed font-light">
+                We didn't mean to do it. The bass frequencies generated on Earf were simply too massive. We built the <span class="font-brand">World Obliterator</span> to harness the low-end theory, but the sub-harmonics traveled through the vacuum of space. Now, distant cat worlds are crumbling under the weight of our 808s. Use with extreme caution.
+            </p>
+        </div>
+    </div>
+
+    <div id="download" class="py-20 bg-gradient-to-b from-black to-zinc-900 text-center">
+        <div class="max-w-3xl mx-auto px-4">
+            <h2 class="text-4xl font-black text-white mb-8">ARM THE SYSTEM</h2>
+            <div class="bg-black border border-gray-700 p-8 rounded-lg box-glow">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div class="text-left">
+                        <div class="text-2xl font-bold text-white mb-1">World Obliterator VST3</div>
+                        <div class="text-heat-mid font-bold tracking-wider mb-1 text-sm">BASS ENHANCER</div>
+                        <div class="text-sm text-gray-400">Version 1.1.0 | 64-bit Windows</div>
+                    </div>
+                    <div class="flex flex-col gap-2 w-full md:w-auto">
+                        <a href="https://github.com/jennyrave-sys/WORLD_OBLITERATOR/raw/refs/heads/main/World%20Obliterator.vst3.zip" target="_blank" class="bg-heat-mid hover:bg-heat-low text-black font-black py-4 px-8 rounded shadow-lg transition-all transform hover:scale-105 inline-block">
+                            <i class="fab fa-windows mr-2"></i> DOWNLOAD VST3
+                        </a>
+                        <span class="text-xs text-gray-500">Also compatible with future cat worlds</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-left">
+                <h4 class="text-heat-mid font-bold mb-6 uppercase tracking-widest text-sm text-center">Deployment Instructions</h4>
+                
+                <div class="bg-zinc-900/80 border border-gray-800 rounded-lg p-6 space-y-6">
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-heat-low flex items-center justify-center text-black font-bold">1</div>
+                        <div>
+                            <p class="text-white font-bold mb-1">Download & Extract</p>
+                            <p class="text-gray-400 text-sm">Download the <a href="https://github.com/jennyrave-sys/WORLD_OBLITERATOR/raw/refs/heads/main/World%20Obliterator.vst3.zip" target="_blank" class="text-heat-mid hover:underline hover:text-white transition-colors">downloaded archive</a>. Right-click the folder and select <span class="text-white">"Extract All"</span>.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-heat-mid flex items-center justify-center text-black font-bold">2</div>
+                        <div>
+                            <p class="text-white font-bold mb-1">Locate the Artifact</p>
+                            <p class="text-gray-400 text-sm">Find the file named <span class="text-heat-mid font-mono">World Obliterator.vst3</span> inside the extracted folder.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-heat-high flex items-center justify-center text-black font-bold">3</div>
+                        <div class="w-full">
+                            <p class="text-white font-bold mb-1">Install to System</p>
+                            <p class="text-gray-400 text-sm mb-2">Copy and paste that file into your system's VST3 directory (Which is usually at):</p>
+                            <div class="bg-black border border-gray-700 rounded p-3 font-mono text-xs text-heat-mid select-all break-all">
+                                C:\Program Files\Common Files\VST3\
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-white flex items-center justify-center text-black font-bold">4</div>
+                        <div>
+                            <p class="text-white font-bold mb-1">Scan & Destroy</p>
+                            <p class="text-gray-400 text-sm">Open your DAW (FL Studio, Ableton, Rebuzz, etc.) and scan for new plugins.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="bg-black py-8 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="text-gray-600 text-xs mb-4 md:mb-0 tracking-wider">
+                2026 JennyRave. All Planets Destroyed.
+            </div>
+            <div class="flex space-x-6">
+                <a href="#" class="text-gray-500 hover:text-heat-mid transition-colors"><i class="fab fa-github text-xl"></i></a>
+                <a href="#" class="text-gray-500 hover:text-heat-mid transition-colors"><i class="fab fa-twitter text-xl"></i></a>
+                <a href="#" class="text-gray-500 hover:text-heat-mid transition-colors"><i class="fab fa-instagram text-xl"></i></a>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <p class="text-[10px] text-gray-800 uppercase tracking-widest">Distributed under GPL</p>
+        </div>
+    </footer>
+
+</body>
+</html>
