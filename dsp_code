@@ -1,0 +1,145 @@
+#pragma once
+
+#include <cmath>
+#include <algorithm>
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
+class WorldObliteratorEngine {
+public:
+    WorldObliteratorEngine() {}
+    ~WorldObliteratorEngine() {}
+
+    struct SVF {
+        float g, k, ic1eq, ic2eq;
+        void setup(float cutoff, float Q, float sr) {
+            float f = std::tan(M_PI * cutoff / sr);
+            g = f / (1.0f + f);
+            k = 1.0f / Q;
+            reset();
+        }
+        void reset() { ic1eq = ic2eq = 0; }
+        float processLP(float v0) {
+            float v3 = v0 - ic2eq;
+            float v1 = g * (v3 - k * ic1eq) / (1.0f + g * (g + k));
+            float v2 = ic2eq + g * v1;
+            ic1eq = 2.0f * v1 - ic1eq;
+            ic2eq = 2.0f * v2 - ic2eq;
+            return v2;
+        }
+        float processHP(float v0) {
+            float v3 = v0 - ic2eq;
+            float v1 = g * (v3 - k * ic1eq) / (1.0f + g * (g + k));
+            float v2 = ic2eq + g * v1;
+            ic1eq = 2.0f * v1 - ic1eq;
+            ic2eq = 2.0f * v2 - ic2eq;
+            return v0 - k * v1 - v2;
+        }
+    };
+
+    struct LR4 {
+        SVF stage1, stage2;
+        void setup(float cutoff, float sr) {
+            stage1.setup(cutoff, 0.7071f, sr);
+            stage2.setup(cutoff, 0.7071f, sr);
+        }
+        float processLP(float in) { return stage2.processLP(stage1.processLP(in)); }
+        float processHP(float in) { return stage2.processHP(stage1.processHP(in)); }
+    };
+
+    void prepare(double sr) {
+        sampleRate = sr;
+        for (int i = 0; i < 2; ++i) {
+            mainLP[i].reset();
+            dcBlock[i].setup(20.0f, 0.707f, sr);     
+            antiFizz[i].setup(5000.0f, 0.707f, sr);  
+            crossLow[i].setup(120.0f, sr);           
+            crossHigh[i].setup(120.0f, sr);
+        }
+    }
+
+    void process(float** buffer, int numSamples) {
+        float* left = buffer[0];
+        float* right = buffer[1];
+
+        float inGain = inputIntake * 4.0f;      
+        float outGain = outputDoomsday * 4.0f;  
+        float driveBase = 1.0f + (impactDistortion / 5.0f);
+        float freq = 20.0f + (targetFreq * 1.8f); 
+        float q = 0.1f + (resonance * 3.9f);    
+        
+        float compensation = autoGainActive ? (1.0f / std::sqrt(driveBase)) : 1.0f;
+
+        for (int s = 0; s < numSamples; ++s) {
+            float channels[2] = { left[s], right[s] };
+
+            for (int c = 0; c < 2; ++c) {
+                float x = channels[c];
+
+                x *= inGain;
+                float dry = x;
+
+                float currentDrive = driveBase;
+                float punchIn = x;
+                if (punchActive) {
+                    punchIn *= 1.5f;
+                    currentDrive *= 0.5f;
+                }
+
+                float wet = applyAsymmetricDistortion(punchIn, currentDrive);
+
+                mainLP[c].setup(freq, q, sampleRate);
+                wet = mainLP[c].processLP(wet);
+                
+                wet = antiFizz[c].processLP(wet);
+                wet = dcBlock[c].processHP(wet);
+
+                channels[c] = (dry * (1.0f - mixBlend)) + (wet * mixBlend);
+            }
+
+            float l_low = crossLow[0].processLP(channels[0]);
+            float r_low = crossLow[1].processLP(channels[1]);
+            float l_high = crossHigh[0].processHP(channels[0]);
+            float r_high = crossHigh[1].processHP(channels[1]);
+
+            float monoLow = (l_low + r_low) * 0.5f;
+
+            float outL = (monoLow + l_high) * outGain * compensation;
+            float outR = (monoLow + r_high) * outGain * compensation;
+
+            left[s] = std::max(-1.0f, std::min(1.0f, outL));
+            right[s] = std::max(-1.0f, std::min(1.0f, outR));
+        }
+    }
+
+    void setInputIntake(float value) { inputIntake = value; }
+    void setOutputDoomsday(float value) { outputDoomsday = value; }
+    void setImpactDistortion(float value) { impactDistortion = value; }
+    void setTargetFrequency(float value) { targetFreq = value; }
+    void setResonance(float value) { resonance = value; }
+    void setMixBlend(float value) { mixBlend = value; }
+    void setPunch(bool state) { punchActive = state; }
+    void setAutoGain(bool state) { autoGainActive = state; }
+
+private:
+    float applyAsymmetricDistortion(float in, float drive) {
+        float x = in * drive;
+        if (x >= 0.0f) return std::tanh(x);
+        return std::tanh(x * 1.2f) / 1.2f;
+    }
+
+    double sampleRate = 44100.0;
+    float inputIntake = 0.75f;
+    float outputDoomsday = 0.25f;
+    float impactDistortion = 0.0f;
+    float targetFreq = 80.0f;
+    float resonance = 1.0f;
+    float mixBlend = 1.0f;
+    bool punchActive = false;
+    bool autoGainActive = false;
+
+    SVF mainLP[2], dcBlock[2], antiFizz[2];
+    LR4 crossLow[2], crossHigh[2];
+};
